@@ -1,228 +1,13 @@
-<!-- Great! Now that I have your Terraform code and list of screenshots, I’ll create a professional and informative `README.md` file for your GitHub project.
 
-This README will include:
-
-* 🔹 Project overview
-* 🔹 Tech stack
-* 🔹 Folder structure
-* 🔹 Code snippets with file explanations
-* 🔹 Screenshots with small captions
-* 🔹 How to use the project
-* 🔹 Learnings and contact info
-
-Here's the **complete `README.md`**:
-
----
-
-```markdown
-# 🌐 Static Website Hosting on AWS S3 using Terraform
-
-A fully automated infrastructure setup for hosting a static website on Amazon S3 using Terraform. This project demonstrates how to create an S3 bucket, upload files, configure public access, and enable static website hosting—all through Infrastructure as Code (IaC).
-
----
-
-## 🚀 Project Objective
-
-To automate the provisioning of AWS resources and host a static HTML/CSS website using Terraform.
-
----
-
-## 🧰 Tech Stack
-
-- Terraform
-- AWS S3
-- HTML/CSS
-- Random provider
-- AWS CLI (optional)
-
----
-
-## 📁 Project Structure
-
-```
-
-.
-├── main.tf                 # S3 bucket, objects, policy & website config
-├── provider.tf             # Terraform and AWS provider configuration
-├── output.tf               # Outputs the website URL
-├── index.html              # Static HTML file
-├── styles.css              # Styling for the website
-
-````
-
-![Folder Structure](screenshots/01-folder-structure.png)
-
----
-
-## 📝 Terraform Code Overview
-
-### 🔧 `provider.tf`
-
-Configures AWS and required providers.
-
-```hcl
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.54.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.6.2"
-    }
-  }
-}
-
-provider "aws" {
-  region = "eu-north-1"
-}
-````
-
----
-
-### 🏗️ `main.tf`
-
-Creates a unique-named S3 bucket and configures it for website hosting.
-
-```hcl
-resource "random_id" "rand_id" {
-  byte_length = 8
-}
-...
-resource "aws_s3_object" "index_html" {
-  bucket       = aws_s3_bucket.mywebapp_bucket.bucket
-  source       = "./index.html"
-  key          = "index.html"
-  content_type = "text/html"
-}
-```
-
----
-
-### 📤 `output.tf`
-
-Displays the final website URL after provisioning.
-
-```hcl
-output "website_url" {
-  description = "S3 Static Website Endpoint"
-  value       = aws_s3_bucket_website_configuration.mywebapp.website_endpoint
-}
-```
-
----
-
-## ⚙️ Terraform Execution Workflow
-
-Follow the commands below:
-
-```bash
-terraform init
-terraform plan
-terraform apply
-```
-
-### Screenshot: Terraform Initialization
-
-Initializes the working directory and downloads required providers.
-
-![Terraform Init](screenshots/02-terraform-init.png)
-
----
-
-### Screenshot: Terraform Plan
-
-Shows execution plan before applying changes.
-
-![Terraform Plan](screenshots/03-terraform-plan.png)
-
----
-
-### Screenshot: Terraform Apply
-
-Provisions the infrastructure and uploads files.
-
-![Terraform Apply](screenshots/04-terraform-apply.png)
-
----
-
-## 📸 AWS Console Outputs
-
-### ✅ S3 Bucket Verification
-
-S3 bucket successfully created via Terraform.
-
-![AWS Console S3 Bucket](screenshots/05-aws-console-s3-bucket.png)
-
----
-
-### 📁 Uploaded Files
-
-HTML and CSS files uploaded to the S3 bucket.
-
-![S3 Uploaded Files](screenshots/06-s3-upload-files.png)
-
----
-
-### 🌍 Static Website Settings
-
-Shows website hosting settings with index and error pages configured.
-
-![S3 Website Settings](screenshots/07-s3-static-website-settings.png)
-
----
-
-### 🌐 Live Website Preview
-
-A working static website hosted on S3 via the public URL.
-
-![Website Preview](/08-website-preview.png)
-
----
-
-## 🎯 Key Learnings
-
-* Writing reusable Terraform code
-* Hosting static websites on AWS S3
-* Implementing IAM policies for public access
-* Automating end-to-end cloud deployments
-
----
-
-## 🙋‍♂️ About Me
-
-**Gaurav Sardar** – DevOps Enthusiast | AWS | Terraform | Linux
-📩 [gauravsardar85@gmail.com](mailto:gauravsardar85@gmail.com)
-🔗 [LinkedIn](https://www.linkedin.com/in/gaurav-sardar)
-
----
-
-## 🏷️ Tags
-
-`#Terraform` `#AWS` `#S3` `#DevOps` `#CloudComputing` `#IaC` `#StaticWebsite` `#OpenToWork`
- -->
-
-
-Perfect! Here’s the enhanced **final README.md** with clickable links, badges, and a little more polish for professional presentation:
-
----
-
-````markdown
 # Hosting Static Website on AWS S3 using Terraform  
 *By Gaurav Sardar*
 
 ---
 
-![Terraform](https://img.shields.io/badge/Terraform-6437ff?style=flat&logo=terraform&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonaws&logoColor=white)
-![Static Website](https://img.shields.io/badge/Static_Website-blue)
-
----
-
 ## 🚀 Project Overview
 
-This project automates the hosting of a static website on AWS S3 using Terraform. It demonstrates how Infrastructure as Code (IaC) helps deploy and manage cloud infrastructure efficiently, enabling version control, repeatability, and automation.
+This project automates the hosting of a static website on AWS S3 using Terraform.
+ It demonstrates how Infrastructure as Code (IaC) helps deploy and manage cloud infrastructure efficiently, enabling version control, repeatability, and automation.
 
 ---
 
@@ -245,7 +30,7 @@ Below is the structure of the project files including Terraform scripts and webs
 
 ---
 
-## ⚙️ Terraform Code Snippets
+## Terraform Code Snippets with Explanations
 
 ### provider.tf
 
@@ -266,23 +51,39 @@ terraform {
 provider "aws" {
   region = "eu-north-1"
 }
-````
+```
 
-*Configures AWS provider and region for Terraform.*
+This file configures Terraform to use the AWS and Random providers with specific versions. The AWS provider is set to the `eu-north-1` region, which tells Terraform where to create AWS resources.
 
 ---
 
-### main.tf
+### random\_id Resource
 
 ```hcl
 resource "random_id" "rand_id" {
   byte_length = 8
 }
+```
 
+Generates a unique random ID of 8 bytes used to create a unique S3 bucket name. This avoids naming conflicts since S3 bucket names must be globally unique.
+
+---
+
+### S3 Bucket Resource
+
+```hcl
 resource "aws_s3_bucket" "mywebapp_bucket" {
   bucket = "mywebapp-bucket-${random_id.rand_id.hex}"
 }
+```
 
+Creates an S3 bucket with a dynamic name that includes the random ID generated above, ensuring uniqueness.
+
+---
+
+### S3 Bucket Public Access Block
+
+```hcl
 resource "aws_s3_bucket_public_access_block" "example" {
   bucket = aws_s3_bucket.mywebapp_bucket.id
 
@@ -291,7 +92,15 @@ resource "aws_s3_bucket_public_access_block" "example" {
   ignore_public_acls      = false
   restrict_public_buckets = false
 }
+```
 
+Configures the bucket’s public access settings to allow public access. This is essential for hosting a public static website.
+
+---
+
+### S3 Bucket Policy
+
+```hcl
 resource "aws_s3_bucket_policy" "mywebapp" {
   bucket = aws_s3_bucket.mywebapp_bucket.id
 
@@ -312,7 +121,15 @@ resource "aws_s3_bucket_policy" "mywebapp" {
     }
   )
 }
+```
 
+Applies a bucket policy that grants public read access to all objects in the bucket, allowing anyone to view the website files.
+
+---
+
+### S3 Bucket Website Configuration
+
+```hcl
 resource "aws_s3_bucket_website_configuration" "mywebapp" {
   bucket = aws_s3_bucket.mywebapp_bucket.id
 
@@ -320,14 +137,30 @@ resource "aws_s3_bucket_website_configuration" "mywebapp" {
     suffix = "index.html"
   }
 }
+```
 
+Enables static website hosting on the bucket and sets `index.html` as the default landing page.
+
+---
+
+### Upload index.html to S3
+
+```hcl
 resource "aws_s3_object" "index_html" {
   bucket       = aws_s3_bucket.mywebapp_bucket.bucket
   source       = "./index.html"
   key          = "index.html"
   content_type = "text/html"
 }
+```
 
+Uploads the local `index.html` file to the S3 bucket as the main page of the website.
+
+---
+
+### Upload styles.css to S3
+
+```hcl
 resource "aws_s3_object" "styles_css" {
   bucket       = aws_s3_bucket.mywebapp_bucket.bucket
   source       = "./styles.css"
@@ -336,7 +169,7 @@ resource "aws_s3_object" "styles_css" {
 }
 ```
 
-*Creates a random bucket name, sets public access, bucket policy, website config, and uploads HTML/CSS files.*
+Uploads the `styles.css` stylesheet to the bucket to style the website.
 
 ---
 
@@ -349,7 +182,7 @@ output "website_url" {
 }
 ```
 
-*Outputs the static website URL after deployment.*
+Outputs the public URL of the static website once Terraform finishes applying, so you can easily access your hosted site.
 
 ---
 
@@ -425,4 +258,4 @@ output "website_url" {
 
 ## 📢 Hashtags
 
-\#terraform #aws #devops #cloudcomputing #iac #s3 #staticwebsite #cloudengineer #openforwork #GauravSardar
+ #terraform #aws #devops #cloudcomputing #iac #s3 #staticwebsite #cloudengineer #openforwork #GauravSardar
