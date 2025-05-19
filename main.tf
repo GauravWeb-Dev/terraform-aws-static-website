@@ -15,23 +15,42 @@ resource "aws_s3_bucket_public_access_block" "example" {
   restrict_public_buckets = false
 }
 
+# resource "aws_s3_bucket_policy" "mywebapp" {
+#   bucket = aws_s3_bucket.mywebapp_bucket.id
+
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Sid       = "PublicReadGetObject",
+#         Effect    = "Allow",
+#         Principal = "*",
+#         Action    = "s3:GetObject",
+#         Resource  = "${aws_s3_bucket.mywebapp_bucket.arn}/*"
+#       }
+#     ]
+#   })
+# }
 resource "aws_s3_bucket_policy" "mywebapp" {
-  bucket = aws_s3_bucket.mywebapp_bucket.id
+  bucket = aws_s3_bucket.mywebapp-bucket.id
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Sid       = "PublicReadGetObject",
-        Effect    = "Allow",
-        Principal = "*",
-        Action    = "s3:GetObject",
-        Resource  = "${aws_s3_bucket.mywebapp_bucket.arn}/*"
-      }
-    ]
-  })
+  depends_on = [aws_s3_bucket_public_access_block.example]
+
+  policy = jsonencode(
+    {
+      Version = "2012-10-17",
+      Statement = [
+        {
+          Sid       = "PublicReadGetObject",
+          Effect    = "Allow",
+          Principal = "*",
+          Action    = "s3:GetObject",
+          Resource  = "${aws_s3_bucket.mywebapp-bucket.arn}/*"
+        }
+      ]
+    }
+  )
 }
-
 resource "aws_s3_bucket_website_configuration" "mywebapp" {
   bucket = aws_s3_bucket.mywebapp_bucket.id
 
